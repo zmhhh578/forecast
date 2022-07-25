@@ -32,31 +32,15 @@ Prtv=dd['Prtv']
 Prtv=Prtv.reset_index()
 Prtv.columns=['TurbID']+[i for i in range(1,184)]
 Prtv_data=pd.melt(Prtv,id_vars='TurbID',var_name='Day',value_name='Prtv')
-Wdir=dd['Wdir']
-Wdir=Wdir.reset_index()
-Wdir.columns=['TurbID']+[i for i in range(1,184)]
-Wdir_data=pd.melt(Wdir,id_vars='TurbID',var_name='Day',value_name='Wdir')
-Etmp=dd['Etmp']
-Etmp=Etmp.reset_index()
-Etmp.columns=['TurbID']+[i for i in range(1,184)]
-Etmp_data=pd.melt(Etmp,id_vars='TurbID',var_name='Day',value_name='Etmp')
-Ndir=dd['Ndir']
-Ndir=Ndir.reset_index()
-Ndir.columns=['TurbID']+[i for i in range(1,184)]
-Ndir_data=pd.melt(Ndir,id_vars='TurbID',var_name='Day',value_name='Ndir')
-Pab1=dd['Pab1']
-Pab1=Pab1.reset_index()
-Pab1.columns=['TurbID']+[i for i in range(1,184)]
-Pab1_data=pd.melt(Pab1,id_vars='TurbID',var_name='Day',value_name='Pab1')
-Pab2=dd['Pab2']
-Pab2=Pab2.reset_index()
-Pab2.columns=['TurbID']+[i for i in range(1,184)]
-Pab2_data=pd.melt(Pab2,id_vars='TurbID',var_name='Day',value_name='Pab2')
-Pab3=dd['Pab3']
-Pab3=Pab3.reset_index()
-Pab3.columns=['TurbID']+[i for i in range(1,184)]
-Pab3_data=pd.melt(Pab3,id_vars='TurbID',var_name='Day',value_name='Pab3')
-feature_data=pd.concat([Wdir_data['Wdir'],Etmp_data['Etmp'],Ndir_data['Ndir'],Pab1_data['Pab1'],Pab2_data['Pab2'],Pab3_data['Pab3']],axis=1)
+value_name = ['Wdir', 'Etmp', 'Itmp', 'Ndir', 'Pab1', 'Pab2', 'Pab3']
+feature_data = pd.DataFrame()
+for i in value_name:
+    tem = dd[i]
+    tem = tem.reset_index()
+
+    tem.columns = ['TurbID'] + [i for i in range(1, 184)]
+    tem_data = pd.melt(tem, id_vars='TurbID', var_name='Day', value_name=i)
+    feature_data = pd.concat([feature_data, tem_data[i]], axis=1)
 
 h = 7
 lag = 7
